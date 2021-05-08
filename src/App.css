@@ -294,3 +294,12 @@
     text-align: center;
     margin-top: 20px;
   }
+
+  .sticky{
+    position: fixed;
+    background-color: #a582cf;
+    color: azure;
+   border: solid;
+    padding:10px;
+    top:0;
+  } 
