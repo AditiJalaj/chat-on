@@ -1,8 +1,10 @@
 import {useState} from 'react'
 import axios from 'axios'
-
+import { Link,BrowserRouter, useHistory } from "react-router-dom";
+import SignUp from './SignUp'
 
 const LoginForm = () => {
+    const history=useHistory()
     const [username,setUserName]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState('')
@@ -14,8 +16,10 @@ const LoginForm = () => {
             'User-Name':username,
             'User-Secret':password
         }
+
+        
         try{
-            //username & pass -> chatengine->give messages
+            //CHECKING THE CREDENTIALS-username & password -> chatengine->give messages
             await axios.get('https://api.chatengine.io/chats',{headers:authObject});
 
             //works out ->logged in
@@ -25,10 +29,11 @@ const LoginForm = () => {
 
              //reloading to render diff pg-- line 7 of app.js
              window.location.reload()
-
+            
+            
         }catch(err)
         {//error->try with new username
-        setError('Incorrect Credentials!')
+        setError('Incorrect username or password!')
         }
     }
 
@@ -55,6 +60,7 @@ const LoginForm = () => {
         <span>start chat</span></button>
         </div>
         <h2 className='error'>{error}</h2>
+
         </form>
 
         <div align="center" style={{color:'white'}}>  Test username: Aditi / Jenny 
