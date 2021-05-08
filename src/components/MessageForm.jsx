@@ -7,30 +7,28 @@ const MessageForm = (props) => {
     const { chatId, creds ,typer, setTyper} = props;
 
     const typerHandler=(val)=>{
-      if(!typer)
-      {
-        setTyper(val)
-      }
+      if(!typer){ 
+         setTyper(val)  }
 
       setTimeout(()=>{
         setTyper(null)
       },1500)
     }
 
-    const handleChange = (event) => {
-      setValue(event.target.value);
+    const handleChange = (e) => {
+      setValue(e.target.value);
       isTyping(props, chatId,(data)=>{typerHandler(data.person)});
     };
   
-    const handleSubmit = (event) => {
-      event.preventDefault();
+    const handleSubmit = (e) => {
+      e.preventDefault();
   
       const text = value.trim();
   
       if (text.length > 0) {
-        sendMessage(creds, chatId, { text:text });
+        sendMessage(creds, chatId, { text });
       }
-
+  
       setValue('');
     };
 

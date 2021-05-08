@@ -1,7 +1,7 @@
 import MyMessage from './MyMessage'
 import TheirMessage from './TheirMessage'
 import MessageForm from './MessageForm'
-import {useState} from 'react'
+import {useState,useEffect,useRef} from 'react'
 
 const ChatFeed = (props) => {
 
@@ -11,6 +11,12 @@ const ChatFeed = (props) => {
 
     const [typer,setTyper]=useState(null)
 
+
+    //for scroll-to-bottom
+    const dummyRef=useRef()
+    useEffect(()=>{
+        dummyRef.current && dummyRef.current.scrollIntoView({behavior:"smooth"})
+    })
     
     const renderReadReceipts=(message, isMyMessage)=>{
         return(
@@ -74,11 +80,15 @@ const ChatFeed = (props) => {
         )}</div>
         </div>
         {renderMessages()}
-        <div style={{height:'100px'}}>
+
+        <div
+        ref={dummyRef} 
+         style={{height:'100px'}}>
         {typer?`${typer} is Typing...`:null } 
         </div>
         <div className="message-form-container">
              <MessageForm {...props} 
+             
              chatId={activeChat}
              typer={typer}
              setTyper={setTyper}
