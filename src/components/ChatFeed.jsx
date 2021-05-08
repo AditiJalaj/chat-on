@@ -1,7 +1,7 @@
 import MyMessage from './MyMessage'
 import TheirMessage from './TheirMessage'
 import MessageForm from './MessageForm'
-
+import {useState} from 'react'
 
 const ChatFeed = (props) => {
 
@@ -9,17 +9,19 @@ const ChatFeed = (props) => {
 
     const chat =chats && chats[activeChat];
 
+    const [typer,setTyper]=useState(null)
 
     
     const renderReadReceipts=(message, isMyMessage)=>{
         return(
             chat.people.map((person, index) => person.last_read === message.id && (
                  /* only rendering below if the person has read the msg*/ 
-            <div key={`read_${index}`} className="read-receipt" style={{float: isMyMessage? 'right' : 'left', backgroundImage: `url(${person?.person?.avatar})` }} />
+            <div key={`read_${index}`} className="read-receipt" style={{float: isMyMessage? 'right' : 'left', backgroundImage: person.person.avatar && `url(${person?.person?.avatar})` }} />
         ))
         )
     }
     
+    //log the props
     // console.log(`current chat is  ${chat}, userName  ${userName},${messages}`)
     // console.log(props)
 
@@ -72,10 +74,16 @@ const ChatFeed = (props) => {
         )}</div>
         </div>
         {renderMessages()}
-        <div style={{height:'100px'}}/> 
-
+        <div style={{height:'100px'}}>
+        {typer?`${typer} is Typing...`:null } 
+        </div>
         <div className="message-form-container">
-             <MessageForm {...props} chatId={activeChat}/>
+             <MessageForm {...props} 
+             chatId={activeChat}
+             typer={typer}
+             setTyper={setTyper}
+
+             />
         </div>
         </div>
      );

@@ -4,11 +4,22 @@ import {sendMessage, isTyping } from 'react-chat-engine'
 
 const MessageForm = (props) => {
     const [value, setValue] = useState('');
-    const { chatId, creds } = props;
-  
+    const { chatId, creds ,typer, setTyper} = props;
+
+    const typerHandler=(val)=>{
+      if(!typer)
+      {
+        setTyper(val)
+      }
+
+      setTimeout(()=>{
+        setTyper(null)
+      },1500)
+    }
+
     const handleChange = (event) => {
       setValue(event.target.value);
-      isTyping(props, chatId);
+      isTyping(props, chatId,(data)=>{typerHandler(data.person)});
     };
   
     const handleSubmit = (event) => {
@@ -17,9 +28,9 @@ const MessageForm = (props) => {
       const text = value.trim();
   
       if (text.length > 0) {
-        sendMessage(creds, chatId, { text });
+        sendMessage(creds, chatId, { text:text });
       }
-  
+
       setValue('');
     };
 
